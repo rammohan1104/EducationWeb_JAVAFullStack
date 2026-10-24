@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+    --font-mono: 'Fira Code', monospace;
+
+    /* Vedantu Signature Colors */
+    --vedantu-orange: #ff693b;
+    --vedantu-orange-dark: #ea580c;
+    --vedantu-orange-light: #fff6f2;
+    --vedantu-amber: #f59e0b;
+    --vedantu-blue: #2563eb;
+    --vedantu-navy: #000000;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: #fafaf9;
+    color: #000000;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: #000000;
+    font-weight: 800;
+  }
+
+  p, span, label, div, input, textarea, select, th, td, li, a {
+    color: inherit;
+  }
+}
+
+/* Make body paragraphs and subtitles crisp and dark by default */
+p, label, span {
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom soft scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fdfaf6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fed7aa;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fb923c;
+}
+
+/* Vedantu Glass & Card helpers */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(254, 215, 170, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(255, 105, 59, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.glass-card {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  box-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.06);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 105, 59, 0.6);
+  box-shadow: 0 12px 28px -6px rgba(255, 105, 59, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.glass-input {
+  background: #ffffff;
+  border: 1px solid #94a3b8;
+  color: #000000;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  background: #ffffff;
+  border-color: #ff693b;
+  box-shadow: 0 0 0 4px rgba(255, 105, 59, 0.15);
+  outline: none;
+}
+
+/* Vedantu Glow effects */
+.glow-primary {
+  box-shadow: 0 4px 20px -2px rgba(255, 105, 59, 0.35);
+}
+
+.glow-emerald {
+  box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.25);
+}
+
+/* Pulse animation */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}

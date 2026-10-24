@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # MySQL 8.0 Relational Database
+  mysql_db:
+    image: mysql:8.0
+    container_name: edumanage_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: edumanage_db
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: eduuser
+      MYSQL_PASSWORD: edupassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database_schema.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - edumanage_network
+
+  # Java Spring Boot Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: edumanage_backend
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/edumanage_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: eduuser
+      SPRING_DATASOURCE_PASSWORD: edupassword
+      JWT_SECRET: EdUM4n4g3S3cur3JWTK3yF0rPr0duct10nPl4tf0rm2026!#
+      JWT_EXPIRATION_MS: 86400000
+      FILE_UPLOAD_DIR: ./uploads
+    ports:
+      - "8080:8080"
+    volumes:
+      - backend_uploads:/app/uploads
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+    networks:
+      - edumanage_network
+
+  # React.js + Nginx Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: edumanage_frontend
+    restart: always
+    ports:
+      - "80:80"
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - edumanage_network
+
+volumes:
+  mysql_data:
+  backend_uploads:
+
+networks:
+  edumanage_network:
+    driver: bridge
